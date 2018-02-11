@@ -24,6 +24,9 @@ class Graph(object):
         self.adjList[u].add(v)
         self.adjList[v].add(u)
 
+    def neighbors(self, u):
+        return set(self.adjList[u])
+
     @staticmethod
     def construct_path(node, meta):
         """Construct a path from `node` using `meta`."""
@@ -58,7 +61,7 @@ class Graph(object):
             if from_node == target:
                 return self.construct_path(target, meta)
 
-            for to_node in self.adjList[from_node]:
+            for to_node in self.neighbors(from_node):
                 if to_node in visited:
                     continue
 
