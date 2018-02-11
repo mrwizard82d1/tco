@@ -37,13 +37,13 @@ class Graph(object):
     def construct_path(node, meta):
         """Construct a path from node using meta."""
 
-        path = []
+        path = [node]
 
         while True:
             edge = meta[node]
             if edge != (None, None):
                 node = edge[0]
-                path.append(edge)
+                path.append(node)
             else:
                 break
 
@@ -77,6 +77,22 @@ class Graph(object):
 
             visited.add(from_node)
 
+    @staticmethod
+    def to_visit_closest_to_source(to_visit, dists_to_source):
+        """Return a node to be visited that is closest to the source node."""
+        return min(to_visit, key=lambda n: dists_to_source[n])
+
+    @staticmethod
+    def shortest_path(source, target, paths_to_source):
+        """Return the shortest path from source to target using paths_to_source."""
+        u = target
+        target_to_source = [u]
+        while paths_to_source[u]:
+            target_to_source.append(paths_to_source[u])
+            u = paths_to_source[u]
+
+        return list(reversed(target_to_source))
+
     def dijkstra(self, source, target, infinity=sys.maxsize):
         """Return the lowest cost path from source to target using Dijkstra's algorithm.
 
@@ -86,29 +102,30 @@ class Graph(object):
         https://stackoverflow.com/questions/13795758/what-is-sys-maxint-in-python-3 for details.
         """
 
-        def to_visit_closest_to_source(to_visit):
-            """Return a node to be visited that is closest to the source node."""
-            return min(to_visit, key=lambda n: to_visit[n])
-
-        weighted_nodes_to_visit = {source: 0}  # the nodes to visit "weighted" by their distance from the source node
-        paths_to_source = collections.defaultdict(list)
+        to_visit = set()
+        dists_to_source = {}
+        paths_to_source = {}
 
         for v in self.nodes():
-            if v != source:
-                weighted_nodes_to_visit[v] = infinity
-                paths_to_source[v] = None
+            dists_to_source[v] = infinity
+            paths_to_source[v] = None
+            to_visit.add(v)
+        dists_to_source[source] = 0  # fix distance of source from source
 
-        print('weighted_nodes_to_visit={}'.format(weighted_nodes_to_visit))
-        print('paths_to_source={}'.format(paths_to_source))
+        while to_visit:
+            u = self.to_visit_closest_to_source(to_visit, dists_to_source)
 
-        while weighted_nodes_to_visit:
-            u = to_visit_closest_to_source(weighted_nodes_to_visit)
-            print('node to visit={}'.format(u))
+            to_visit.remove(u)
+            if u == target:
+                if paths_to_source[target]:
+                    return self.shortest_path(source, target, paths_to_source), dists_to_source[target]
+                return None
 
-            del weighted_nodes_to_visit[u]
+            for v in self.neighbors(u):
+                candidate = dists_to_source[u] + self.adjList[u][v]
+                if candidate < dists_to_source[v]:
+                    # if we found a sorter path to the source, update distances and paths
+                    dists_to_source[v] = candidate
+                    paths_to_source[v]= u
 
-            print('weighted_nodes_to_visit={}'.format(weighted_nodes_to_visit))
-            print('paths_to_source={}'.format(paths_to_source))
-
-            if u == 'mid':
-                break
+        return None
