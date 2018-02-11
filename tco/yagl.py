@@ -9,27 +9,27 @@ class Graph(object):
     def __init__(self):
         """Construct an empty instance."""
 
-        self.adjList = collections.defaultdict(set)
+        self.adjList = collections.defaultdict(dict)
 
     def __repr__(self):
         return repr(self.adjList)
 
     def add_node(self, u):
-        """Add the node, `u`"""
-        self.adjList[u] = set()
+        """Add the node u"""
+        self.adjList[u] = dict()
 
-    def add_edge(self, u, v):
-        """Add the edges between nodes u and v."""
+    def add_edge(self, u, v, weight=0):
+        """Add the edges between nodes u and v with an optional weight."""
 
-        self.adjList[u].add(v)
-        self.adjList[v].add(u)
+        self.adjList[u][v] = weight
+        self.adjList[v][u] = weight
 
     def neighbors(self, u):
-        return set(self.adjList[u])
+        return set(self.adjList[u].keys())
 
     @staticmethod
     def construct_path(node, meta):
-        """Construct a path from `node` using `meta`."""
+        """Construct a path from node using meta."""
 
         path = []
 
@@ -45,7 +45,7 @@ class Graph(object):
         return path
 
     def bfs(self, source, target):
-        """Perform a breadth-first search from `source` to `target`."""
+        """Perform a breadth-first search from source to target."""
 
         to_visit = collections.deque()
         visited = set()
