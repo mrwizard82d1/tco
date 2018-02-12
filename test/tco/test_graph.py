@@ -4,6 +4,7 @@ import tco
 
 
 class TestGraph(unittest.TestCase):
+    """Test basic properties of the Graph class."""
 
     def test_add_edge_first_node_of_edge_has_second_node_as_single_neighbor(self):
         sut = tco.Graph()
@@ -22,6 +23,27 @@ class TestGraph(unittest.TestCase):
         sut.add_edge(1, 2, weight=2.71)
 
         self.assertEqual(sut.neighbors(1), {2: 2.71})
+
+
+class TestGraphSearch(unittest.TestCase):
+    """Test searching the Graph."""
+
+    def test_empty_graph_breadth_first_search_is_empty(self):
+        sut = tco.Graph()
+
+        self.assertEqual(sut.breadth_first_search('a', 'b'), [])
+
+    def test_single_edge_graph_breadth_first_search_first_to_another_is_empty(self):
+        sut = tco.Graph()
+        sut.add_edge('a', 'b')
+
+        self.assertEqual(sut.breadth_first_search('a', 'c'), [])
+
+    def test_single_edge_graph_breadth_first_search_first_to_second_returns_first_to_second_path(self):
+        sut = tco.Graph()
+        sut.add_edge('a', 'b')
+
+        self.assertEqual(sut.breadth_first_search('a', 'b'), ['a', 'b'])
 
 
 if __name__ == '__main__':
