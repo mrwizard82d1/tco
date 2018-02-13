@@ -17,4 +17,4 @@ class PipelineNetwork(object):
 
     def minimum_cost_route(self, terminal_a, terminal_b):
         """Calculate the minimum cost route between terminal_a and terminal_b."""
-        return [], 0
+        return self.state.shortest_path(terminal_a, terminal_b)

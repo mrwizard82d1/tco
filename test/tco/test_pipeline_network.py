@@ -152,11 +152,8 @@ class TestPipelineNetworkMinimumCost(unittest.TestCase):
 
         actual_cost = sut.minimum_cost_route('Midland', 'Toledo')[1]
 
-        self.assertEqual(actual_cost, 16)
+        self.assertEqual(actual_cost, 18)
 
-
-if __name__ == '__main__':
-    unittest.main()
 
 if __name__ == '__main__':
     unittest.main()
