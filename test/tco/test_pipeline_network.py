@@ -3,7 +3,7 @@ import unittest
 import tco
 
 
-class TestPipelineNetwork(unittest.TestCase):
+class TestPipelineNetworkRouting(unittest.TestCase):
     def test_is_connected(self):
         sut = tco.PipelineNetwork()
 
@@ -63,6 +63,8 @@ class TestPipelineNetwork(unittest.TestCase):
         sut.add_segment('Columbus', 'Chicago')
         sut.add_segment('Columbus', 'Toledo')
 
+
+class TestPipelineNetworkMinimumCost(unittest.TestCase):
     @staticmethod
     def add_toll_segments(sut):
         sut.add_segment('Houston', 'Midland', 9)
@@ -152,6 +154,9 @@ class TestPipelineNetwork(unittest.TestCase):
 
         self.assertEqual(actual_cost, 16)
 
+
+if __name__ == '__main__':
+    unittest.main()
 
 if __name__ == '__main__':
     unittest.main()
