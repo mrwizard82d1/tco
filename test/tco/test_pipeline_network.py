@@ -55,7 +55,7 @@ class TestPipelineNetworkRouting(unittest.TestCase):
         sut.add_segment('Chicago', 'Vancouver')
 
         sut.add_segment('North Platte', 'Vancouver')
-        sut.add_segment('North Platte', 'Chicage')
+        sut.add_segment('North Platte', 'Chicago')
 
         sut.add_segment('Toledo', 'Columbus')
         sut.add_segment('Toledo', 'Chicago')
