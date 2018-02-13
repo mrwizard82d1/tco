@@ -154,6 +154,23 @@ class TestPipelineNetworkMinimumCost(unittest.TestCase):
 
         self.assertEqual(actual_cost, 18)
 
+    def test_more_profitable_trade(self):
+        sut = tco.PipelineNetwork()
+
+        self.add_toll_segments(sut)
+
+        revenue = 100
+
+        cost_at_houston = 68
+        route_cost_from_houston = sut.minimum_cost_route('Houston', 'Toledo')[1]
+        profit_from_houston = revenue - cost_at_houston - route_cost_from_houston
+
+        cost_at_midland = 66
+        route_cost_from_midland = sut.minimum_cost_route('Midland', 'Toledo')[1]
+        profit_from_midland = revenue - cost_at_midland - route_cost_from_midland
+
+        self.assertGreater(profit_from_houston, profit_from_midland)
+
 
 if __name__ == '__main__':
     unittest.main()

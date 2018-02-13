@@ -1,5 +1,6 @@
 import tco
 
+
 class PipelineNetwork(object):
     """Models a network of pipelines."""
 
